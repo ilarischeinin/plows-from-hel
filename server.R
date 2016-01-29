@@ -97,7 +97,7 @@ shinyServer(function(input, output) {
         group="Thunderforest.Outdoors") %>%
       addProviderTiles("HikeBike.HikeBike",
         group="HikeBike.HikeBike") %>%
-      setView(24.95, 60.2, zoom=13) %>%
+      setView(24.95, 60.19, zoom=13) %>%
       # addLegend("topright", pal=pal,
       #   values=0:24, title="hours ago", opacity = 1) %>%
       addLayersControl(
