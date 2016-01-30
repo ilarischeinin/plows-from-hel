@@ -7,7 +7,6 @@ library(stringr)
 
 init_routes <- function() {
   url <- "http://dev.hel.fi/aura/v1/snowplow/"
-  time_zone <- Sys.timezone()
   download_routes <- function(since="1days+ago") {
     plows <- fromJSON(paste0(url, "?since=", since))
     lapply(plows$id, function(id, since) {
@@ -17,7 +16,7 @@ init_routes <- function() {
         function(x) paste(sort(x), collapse=","))
       data_frame(
         id=plow$id,
-        timestamp=ymd_hms(plow$location_history$timestamp, tz=time_zone),
+        timestamp=ymd_hms(plow$location_history$timestamp, tz="Europe/Helsinki"),
         latitude=coords[, 2],
         longitude=coords[, 1],
         events=events
@@ -106,16 +105,19 @@ shinyServer(function(input, output) {
         "Thunderforest.Transport", "Thunderforest.TransportDark",
         "Thunderforest.Landscape", "Thunderforest.Outdoors",
         "HikeBike.HikeBike"))
+  })
+  observe({
+    map <- leafletProxy("leaflet") %>%
+      clearShapes()
+    sel <- selected_routes()
+    lapply(unique(sel$id), function(id) {
+      addPolylines(map, data=sel[sel$id == id, ], ~longitude, ~latitude,
+        # color=~pal(as.numeric(difftime(now(), timestamp, unit="hours"))))
+        color="blue")
     })
-    observe({
-      map <- leafletProxy("leaflet") %>%
-        clearShapes()
-      sel <- selected_routes()
-      lapply(unique(sel$id), function(id) {
-        addPolylines(map, data=sel[sel$id == id, ], ~longitude, ~latitude,
-          # color=~pal(as.numeric(difftime(now(), timestamp, unit="hours"))))
-          color="blue")
-    })
+  })
+  observeEvent(input$toggle, {
+    toggle("controls")
   })
 })
 
