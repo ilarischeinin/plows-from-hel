@@ -67,12 +67,12 @@ shinyServer(function(input, output) {
   session_routes <- get_routes()
   hour <- difftime(now(), session_routes$timestamp, unit="hours")
   selected_routes <- reactive({
-    if (input$which == "kv") {
-      cond <- str_detect(session_routes$events, "kv")
-    } else {
-      cond <- !str_detect(session_routes$events, "kv")
-    }
-    cond <- cond & str_detect(session_routes$events, input$what) &
+    # if (input$which == "kv") {
+    #   cond <- str_detect(session_routes$events, "kv")
+    # } else {
+    #   cond <- !str_detect(session_routes$events, "kv")
+    # }
+    cond <- str_detect(session_routes$events, input$what) &
       hour >= input$hours[1] & hour <= input$hours[2]
     session_routes[cond, ]
   })
