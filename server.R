@@ -81,30 +81,36 @@ shinyServer(function(input, output) {
     map <- leaflet() %>%
       addTiles(group="OpenStreetMap") %>%
       addProviderTiles("OpenStreetMap.BlackAndWhite",
-        group="OpenStreetMap.BlackAndWhite") %>%
-      addProviderTiles("OpenTopoMap",
-        group="OpenTopoMap") %>%
-      addProviderTiles("Thunderforest.OpenCycleMap",
-        group="Thunderforest.OpenCycleMap") %>%
-      addProviderTiles("Thunderforest.Transport",
-        group="Thunderforest.Transport") %>%
-      addProviderTiles("Thunderforest.TransportDark",
-        group="Thunderforest.TransportDark") %>%
-      addProviderTiles("Thunderforest.Landscape",
-        group="Thunderforest.Landscape") %>%
-      addProviderTiles("Thunderforest.Outdoors",
-        group="Thunderforest.Outdoors") %>%
+        group="OpenStreetMap - Black and White") %>%
       addProviderTiles("HikeBike.HikeBike",
-        group="HikeBike.HikeBike") %>%
+        group="OpenStreetMap - Hike & Bike") %>%
+      addProviderTiles("OpenTopoMap",
+        group="OpenStreetMap - OpenTopoMap") %>%
+      addProviderTiles("Thunderforest.OpenCycleMap",
+        group="Thunderforest - OpenCycleMap") %>%
+      addProviderTiles("Thunderforest.Transport",
+        group="Thunderforest - Transport") %>%
+      addProviderTiles("Thunderforest.TransportDark",
+        group="Thunderforest - Transport Dark") %>%
+      addProviderTiles("Thunderforest.Landscape",
+        group="Thunderforest - Landscape") %>%
+      addProviderTiles("Thunderforest.Outdoors",
+        group="Thunderforest - Outdoors") %>%
+      addTiles(urlTemplate=
+        "https://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}.png",
+        attribution=paste('&copy;',
+        '<a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy;',
+        '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'),
+        group="Thunderforest - Spinal Map") %>%
       setView(24.95, 60.19, zoom=13) %>%
       # addLegend("topright", pal=pal,
       #   values=0:24, title="hours ago", opacity = 1) %>%
       addLayersControl(
-        baseGroups=c("OpenStreetMap", "OpenStreetMap.BlackAndWhite",
-        "OpenTopoMap", "Thunderforest.OpenCycleMap",
-        "Thunderforest.Transport", "Thunderforest.TransportDark",
-        "Thunderforest.Landscape", "Thunderforest.Outdoors",
-        "HikeBike.HikeBike"))
+        baseGroups=c("OpenStreetMap", "OpenStreetMap - Black and White",
+        "OpenStreetMap - Hike & Bike", "OpenStreetMap - OpenTopoMap",
+        "Thunderforest - OpenCycleMap", "Thunderforest - Transport",
+        "Thunderforest - Transport Dark", "Thunderforest - Landscape",
+        "Thunderforest - Outdoors", "Thunderforest - Spinal Map"))
   })
   observe({
     map <- leafletProxy("leaflet") %>%
