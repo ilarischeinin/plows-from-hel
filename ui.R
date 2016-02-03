@@ -30,7 +30,8 @@ shinyUI(fillPage(title="Plows from HEL",
       div(style="clear: both;")
     )
   ),
-  absolutePanel(bottom=25L, left=5L, actionButton("toggle", label="X"))
+  absolutePanel(bottom=25L, left=5L, actionButton("toggle", label="X",
+    style="font-size: xx-small;"))
 ))
 
 # EOF
