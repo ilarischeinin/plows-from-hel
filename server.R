@@ -1,6 +1,7 @@
 library(dplyr)
 library(jsonlite)
 library(leaflet)
+library(leafletplugins)
 library(lubridate)
 library(shiny)
 library(stringr)
@@ -78,7 +79,7 @@ shinyServer(function(input, output) {
   })
   output$stamp <- renderText(paste(attr(session_routes, "stamp")))
   output$leaflet <- renderLeaflet({
-    map <- leaflet() %>%
+    leaflet() %>%
       addTiles(group="OpenStreetMap") %>%
       addProviderTiles("OpenStreetMap.BlackAndWhite",
         group="OpenStreetMap - Black and White") %>%
@@ -110,7 +111,9 @@ shinyServer(function(input, output) {
         "OpenStreetMap - Hike & Bike", "OpenStreetMap - OpenTopoMap",
         "Thunderforest - OpenCycleMap", "Thunderforest - Transport",
         "Thunderforest - Transport Dark", "Thunderforest - Landscape",
-        "Thunderforest - Outdoors", "Thunderforest - Spinal Map"))
+        "Thunderforest - Outdoors", "Thunderforest - Spinal Map")) %>%
+      addControlFullScreen() %>%
+      addControlGPS()
   })
   observe({
     map <- leafletProxy("leaflet") %>%
