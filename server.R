@@ -1,7 +1,7 @@
 library(dplyr)
 library(jsonlite)
 library(leaflet)
-library(leafletplugins)
+library(leafletplugins) # devtools::install_github('byzheng/leafletplugins')
 library(lubridate)
 library(shiny)
 library(stringr)
