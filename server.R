@@ -1,7 +1,7 @@
 library(dplyr)
 library(jsonlite)
 library(leaflet)
-library(leafletplugins) # devtools::install_github('byzheng/leafletplugins')
+library(leaflet.extras)
 library(lubridate)
 library(shiny)
 library(stringr)
@@ -81,10 +81,11 @@ shinyServer(function(input, output) {
   output$leaflet <- renderLeaflet({
     leaflet() %>%
       addTiles(group="OpenStreetMap") %>%
-      addProviderTiles("OpenStreetMap.BlackAndWhite",
-        group="OpenStreetMap - Black and White") %>%
-      addProviderTiles("HikeBike.HikeBike",
-        group="OpenStreetMap - Hike & Bike") %>%
+      # these apparently don't support https, breaking geolocating:
+      # addProviderTiles("OpenStreetMap.BlackAndWhite",
+      #   group="OpenStreetMap - Black and White") %>%
+      # addProviderTiles("HikeBike.HikeBike",
+      #   group="OpenStreetMap - Hike & Bike") %>%
       addProviderTiles("OpenTopoMap",
         group="OpenStreetMap - OpenTopoMap") %>%
       addProviderTiles("Thunderforest.OpenCycleMap",
@@ -112,7 +113,7 @@ shinyServer(function(input, output) {
         "Thunderforest - OpenCycleMap", "Thunderforest - Transport",
         "Thunderforest - Transport Dark", "Thunderforest - Landscape",
         "Thunderforest - Outdoors", "Thunderforest - Spinal Map")) %>%
-      addControlFullScreen() %>%
+      addFullscreenControl() %>%
       addControlGPS()
   })
   observe({
